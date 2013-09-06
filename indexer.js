@@ -17,3 +17,8 @@ for (var i = 0; i < 13; i++) {
     search.nextIteration(i);
 }
 console.log('found ' + search.nodeCount + ' total nodes');
+console.log('saving to UDcosets.idx...');
+search.table.save('UDcosets.idx', function(err) {
+    if (err) console.log(err.toString());
+    process.exit();
+});
