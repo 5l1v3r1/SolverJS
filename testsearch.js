@@ -12,13 +12,7 @@ var co = new cube.corners.comap.CoMap();
 var search = new Search(standardContext, eo, co);
 
 console.log('running search');
-var lastDepth = 0;
-while (search.nextIteration()) {
-    if (search.depth != lastDepth) {
-        lastDepth = search.depth;
-        console.log('Bumped up to depth of ' + lastDepth);
-    }
-    if (search.nodeCount % 1000 == 0) {
-        console.log('Found ' + search.nodeCount + ' cosets ' + search.shiftTime + ', ' + search.hashTime + ', ' + search.expandTime);
-    }
+for (var i = 0; i < 3; i++) {
+    console.log('Exploring depth ' + i + ' with ' + search.nodeCount + ' cosets found...');
+    search.nextIteration(i);
 }
