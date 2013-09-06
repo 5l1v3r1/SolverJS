@@ -12,7 +12,8 @@ var co = new cube.corners.comap.CoMap();
 var search = new Search(standardContext, eo, co);
 
 console.log('running search');
-for (var i = 0; i < 4; i++) {
+for (var i = 0; i < 13; i++) {
     console.log('Exploring depth ' + i + ' with ' + search.nodeCount + ' cosets found...');
     search.nextIteration(i);
 }
+console.log('found ' + search.nodeCount + ' total nodes');
