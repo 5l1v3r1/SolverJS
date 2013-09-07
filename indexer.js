@@ -11,14 +11,24 @@ var eo = new cube.edges.eo.EdgeOrientations(null, eSlice);
 var co = new cube.corners.comap.CoMap();
 var search = new Search(standardContext, eo, co);
 
-console.log('running search');
-for (var i = 0; i < 13; i++) {
-    console.log('Exploring depth ' + i + ' with ' + search.nodeCount + ' cosets found...');
+console.log('running forward IDA* search');
+var lastCount = 0;
+for (var i = 0; i <= 7; i++) {
     search.nextIteration(i);
+    console.log('completed IDA* of depth ' + i + ' with ' + search.nodeCount + ' nodes');
 }
-console.log('found ' + search.nodeCount + ' total nodes');
-console.log('saving to UDcosets.idx...');
+console.log('initiating backsearch with ' + search.nodeCount + ' found nodes...');
+search.initiateBacksearch();
+console.log('performing backwards search for ' + search.backsearch.length + ' nodes');
+while (search.nextBacksearch(5, 7)) {
+    if (search.nodeCount != lastCount) {
+        console.log('Found ' + search.nodeCount + ' nodes');
+        lastCount = search.nodeCount;
+    }
+}
+/*console.log('saving to UDcosets.idx...');
 search.table.save('UDcosets.idx', function(err) {
     if (err) console.log(err.toString());
     process.exit();
 });
+*/
