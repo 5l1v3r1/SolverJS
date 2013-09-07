@@ -11,11 +11,11 @@ var eo = new cube.edges.eo.EdgeOrientations(null, eSlice);
 var co = new cube.corners.comap.CoMap();
 var search = new Search(standardContext, eo, co);
 
-console.log('running forward IDA* search');
+console.log('running forward BFS to a depth of 7...');
 var lastCount = 0;
 for (var i = 0; i <= 7; i++) {
     search.nextIteration(i);
-    console.log('completed IDA* of depth ' + i + ' with ' + search.nodeCount + ' nodes');
+    console.log('completed depth ' + i + ' with ' + search.nodeCount + ' nodes');
 }
 console.log('initiating backsearch with ' + search.nodeCount + ' found nodes...');
 search.initiateBacksearch();
