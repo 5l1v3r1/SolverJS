@@ -11,20 +11,22 @@ var eo = new cube.edges.eo.EdgeOrientations(null, eSlice);
 var co = new cube.corners.comap.CoMap();
 var search = new Search(standardContext, eo, co);
 
-console.log('running forward IDA* to a depth of 7...');
+var idaDepth = 7;
+console.log('running forward IDA* to a depth of ' + idaDepth + '...');
 var lastCount = 0;
-for (var i = 0; i <= 7; i++) {
+for (var i = 0; i <= idaDepth; i++) {
     search.nextIteration(i);
     console.log('IDA* depth ' + i + ' done with ' + search.nodeCount + ' nodes');
 }
-console.log('performing backwards IDA* search');
-for (var i = 8; i <= 12; i++) {
-    search.iterateBacksearch(i);
-    console.log('IDA* backsearch ' + i + ' done with ' + search.nodeCount + ' nodes');
+
+console.log('performing backwards IDA* search...');
+search.initiateBacksearch();
+for (var i = idaDepth + 1; i <= 12; i++) {
+    search.iterateBacksearch(i, function (percentage) {
+        process.stdout.write('\rcompleted ' + Math.round(percentage) + '% with ' + search.nodeCount + ' nodes');
+    });
+    console.log('\nIDA* backsearch ' + i + ' done with ' + search.nodeCount + ' nodes');
 }
-/*console.log('saving to UDcosets.idx...');
-search.table.save('UDcosets.idx', function(err) {
-    if (err) console.log(err.toString());
-    process.exit();
-});
-*/
+
+console.log('saving to UDcosets.idx...');
+search.table.save('UDcosets.idx');
